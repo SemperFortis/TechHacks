@@ -1,12 +1,7 @@
 {
-	"prefix": "h!",
-	"token": "",
-	"hackathon": {
-		"team": "JS",
-		"host": "TechHacks' 24 hour virtual hackathon"
-	},
-	"ownerIDs": [
-		"404832977366024232",
-		"432692479083544596"
-	]
+    "hackathon": {
+        "team": "JS",
+        "host": "TechHacks' 24 hour virtual hackathon"
+    },
+    "ownerIDs": ["217215496267890689", "404832977366024232", "432692479083544596"]
 }

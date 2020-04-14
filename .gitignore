@@ -1,3 +1,4 @@
-node_modules
+/node_modules
 leveling.db
 config.json
+.env

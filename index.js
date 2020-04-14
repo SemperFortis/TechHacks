@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Discord = require("discord.js");
 const betterSqlite = require("better-sqlite3");
 const config = require("./config.json");
@@ -27,9 +28,9 @@ client.on("message", async (message) =>
 
 	addXp(message).catch(console.error);
 
-	if (!message.content.startsWith(config.prefix)) return;
+	if (!message.content.startsWith(process.env.PREFIX)) return;
 
-	const args = message.content.slice(config.prefix.length).split(/ +/g);
+	const args = message.content.slice(process.env.PREFIX.length).split(/ +/g);
 	const command = args.shift();
 
 	// TODO: Make command handler.
@@ -72,7 +73,7 @@ function createTableIfNotExists()
 	database.exec("CREATE TABLE IF NOT EXISTS levelup (user_id TEXT PRIMARY KEY UNIQUE, xp)");
 }
 
-client.login(config.token);
+client.login(process.env.TOKEN);
 
 /**
  * database.getUser(id)
