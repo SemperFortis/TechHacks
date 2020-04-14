@@ -1,7 +1,6 @@
 const { Collection, MessageEmbed } = require("discord.js");
 const { stripIndent } = require("common-tags");
 const config = require("./config.json");
-let embed;
 
 /**
  * @type {Collection.Collection<string, Command>}
