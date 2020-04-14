@@ -54,7 +54,13 @@ function logoutCommand(message, args, extra)
 async function levelCommand(message, args, extra)
 {
 	const data = extra.statements.selectXp.get(message.author.id);
-	await message.channel.send(`Your xp=${data.xp}`);
+    await message.channel.send(new MessageEmbed({
+        author: { name: message.author.tag, iconURL: message.author.displayAvatarURL() },
+        description: `⭐ **${message.author.username}**, you have **${data.xp}** XP in this server!`,
+        color: "RANDOM",
+        timestamp: Date.now(),
+        footer: { text: `ID: ${message.author.id}` }
+    }));
 }
 
 /**
@@ -69,7 +75,6 @@ async function topCommand(message, args, extra) {
 
     for (let i = 0; i < data.slice(0, 10).length; i++) 
     {
-        console.log(data[i].user_id)
         const member = await message.guild.members.fetch(data[i].user_id);
 
         if (!member)
@@ -108,7 +113,7 @@ commands.set("help", {
 
 commands.set("level", {
 	name: "level",
-	aliases: [],
+	aliases: ["rank"],
 	run: levelCommand
 });
 

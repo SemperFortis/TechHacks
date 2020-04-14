@@ -67,7 +67,7 @@ function addXp(message)
 	}
 	else
 	{
-		statements.updateXp.run(data.xp + 1, message.author.id);
+		statements.updateXp.run(data.xp + Math.floor(Math.random() * 15), message.author.id);
 	}
 }
 
