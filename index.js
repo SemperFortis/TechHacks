@@ -1,9 +1,14 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const betterSqlite = require("better-sqlite3");
-const config = require("./config.json");
+const commands = require("./commands");
 
 const client = new Discord.Client({ disableMentions: "all" });
+const statements = {
+	selectXp: null,
+	insertUser: null,
+	updateXp: null
+};
 
 /**
  * @type {import("better-sqlite3").Database}
@@ -16,61 +21,61 @@ client.on("ready", async () =>
 
 	if (database === null)
 	{
-		database = betterSqlite("./leveling.db");
+		database = betterSqlite("./leveling.db", { verbose: console.log });
+		statements.selectXp = database.prepare("SELECT xp FROM levelup WHERE user_id = ?");
+		statements.insertUser = database.prepare("INSERT INTO levelup (user_id, xp) VALUES (?, ?)");
+		statements.updateXp = database.prepare("UPDATE levelup SET xp = ? WHERE user_id = ?");
+
 		createTableIfNotExists();
 	}
 });
 
 client.on("message", async (message) =>
 {
-	if (message.author.bot) return;
-	if (message.channel.type === "dm") return;
-
-	addXp(message).catch(console.error);
-
-	if (!message.content.startsWith(process.env.PREFIX)) return;
-
-	const args = message.content.slice(process.env.PREFIX.length).split(/ +/g);
-	const command = args.shift();
-
-	// TODO: Make command handler.
-	switch (command)
+	try
 	{
-		case "help": {
-			await message.channel.send("**Commands**\nhelp, level");
-			break;
-		}
+		if (message.author.bot) return;
+		if (message.channel.type === "dm") return;
 
-		case "level": {
-			// show level and xp
-			break;
-		}
+		addXp(message);
 
-		case "logout":
-		case "disconnect": {
-			if (config.ownerIDs.includes(message.author.id))
-			{
-				client.destroy();
-				process.exit();
-			}
-			break;
-		}
-	} // END SWITCH
-}); // END <Client>.on("message", ...);
+		if (!message.content.startsWith(process.env.PREFIX)) return;
+
+		const args = message.content.slice(process.env.PREFIX.length).split(/ +/g);
+		const command = args.shift();
+		const cmd = commands.get(command) || commands.find(x => x.aliases.includes(command));
+
+		if (cmd != null) cmd.run(message, args, { statements, database });
+	}
+	catch (err)
+	{
+		console.error(err);
+	}
+});
 
 /**
  * @param {Discord.Message} message
  */
 function addXp(message)
 {
-	const data = database.prepare("SELECT xp FROM levelup WHERE user_id = ?").get(message.author.id);
+	let data = statements.selectXp.get(message.author.id);
+
+	if (data == null)
+	{
+		statements.insertUser.run(message.author.id, 1);
+		data = statements.selectXp.get(message.author.id);
+	}
+	else
+	{
+		statements.updateXp.run(data.xp + 1, message.author.id);
+	}
+
 	console.debug(data);
-	// if not found, insert into db, otherwise update
 }
 
 function createTableIfNotExists()
 {
-	database.exec("CREATE TABLE IF NOT EXISTS levelup (user_id TEXT PRIMARY KEY UNIQUE, xp)");
+	database.exec("CREATE TABLE IF NOT EXISTS levelup (user_id TEXT PRIMARY KEY UNIQUE, xp INTEGER)");
 }
 
 client.login(process.env.TOKEN);
