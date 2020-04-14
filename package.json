@@ -1,0 +1,23 @@
+{
+    "name": "techhacks",
+    "version": "1.0.0",
+    "description": "Leveling bot made with Discord.js",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SemperFortis/TechHacks.git"
+    },
+    "author": "Far Aiir, Jason, Shane",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/SemperFortis/TechHacks/issues"
+    },
+    "homepage": "https://github.com/SemperFortis/TechHacks#readme",
+    "dependencies": {
+        "better-sqlite3": "^6.0.1",
+        "discord.js": "^12.1.1"
+    }
+}
