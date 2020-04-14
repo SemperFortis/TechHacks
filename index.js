@@ -69,8 +69,6 @@ function addXp(message)
 	{
 		statements.updateXp.run(data.xp + 1, message.author.id);
 	}
-
-	console.debug(data);
 }
 
 function createTableIfNotExists()
@@ -79,8 +77,3 @@ function createTableIfNotExists()
 }
 
 client.login(process.env.TOKEN);
-
-/**
- * database.getUser(id)
- * database.
- */

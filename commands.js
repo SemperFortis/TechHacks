@@ -1,13 +1,17 @@
 const Collection = require("@discordjs/collection");
 const config = require("./config.json");
 
+/**
+ * @type {Collection.Collection<string, Command>}
+ */
 const commands = new Collection();
 
 /**
  * @param {import("discord.js").Message} message
  * @param {string[]} args
+ * @param {CommandExtra} extra
  */
-async function helpCommand(message, args)
+async function helpCommand(message, args, extra)
 {
 	await message.channel.send("**Commands**\nhelp, level");
 }
@@ -15,8 +19,9 @@ async function helpCommand(message, args)
 /**
  * @param {import("discord.js").Message} message
  * @param {string[]} args
+ * @param {CommandExtra} extra
  */
-function logoutCommand(message, args)
+function logoutCommand(message, args, extra)
 {
 	if (config.ownerIDs.includes(message.author.id))
 	{
@@ -28,6 +33,7 @@ function logoutCommand(message, args)
 /**
  * @param {import("discord.js").Message} message
  * @param {string[]} args
+ * @param {CommandExtra} extra
  */
 async function levelCommand(message, args, extra)
 {
@@ -54,3 +60,22 @@ commands.set("logout", {
 });
 
 module.exports = commands;
+
+/**
+ * @typedef {Object} CommandExtra - Additional parameter for database interaction
+ * @property {import("better-sqlite3").Database} database
+ * @property {Object} statements
+ * @property {import("better-sqlite3").Statement} statements.selectXp
+ * @property {import("better-sqlite3").Statement} statements.updateXp
+ * @property {import("better-sqlite3").Statement} statements.insertUser
+ *
+ * @typedef {Object} Command
+ * @property {string} name
+ * @property {string[]} aliases
+ * @property {Command.run} run
+ *
+ * @callback Command.run
+ * @param {import("discord.js").Message} message
+ * @param {string[]} args
+ * @param {CommandExtra} extra
+ */
