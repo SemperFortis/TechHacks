@@ -1,0 +1,131 @@
+.disp {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+    padding: 20px 33px;
+}
+
+li:last-child {
+    padding: 10px 33px;
+
+}
+
+a {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+li a {
+    display: block;
+    color: rgb(140, 140, 140);
+    text-align: center;
+    text-decoration: none;
+}
+
+a:hover {
+    opacity: 70%;
+}
+
+.active:hover {
+    opacity: 100%;
+}
+
+.active {
+    color: rgb(255, 255, 255);
+}
+
+.avatarHolder {
+    overflow: hidden;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    top: 0;
+    right: 0;
+}
+
+.avatarHolder>img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.relative {
+    position: relative;
+}
+.avatarTextContainer {
+    position: absolute;
+    padding-top: 5px;
+    overflow: hidden;
+    padding-left: 170px;
+    font-size: 25px;
+    white-space: nowrap;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.avatarContainer {
+    overflow: hidden;
+    width: 50px;
+    transition: width 0.4s;
+}
+
+.avatarContainer:hover {
+    width: 280px;
+}
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    height: 550px;
+    width: 90%;
+    padding-top: 33px;
+    padding-left:5%;
+}
+.split {
+    padding-right: 30px;
+    padding-top:33px;
+}
+.users {
+    position: relative;
+    height: 160px;
+    width: 190px;
+    border-radius: 22px;
+    background-color: #1e1f21;
+}
+.usersAvatarHolder {
+    overflow: hidden;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    top: 0;
+    right: 0;
+}
+
+.userAvatar {
+    position: absolute;
+}
+
+.userBoxImg {
+    margin-left: 30%;
+    background-image: url('https://cdn.discordapp.com/avatars/217215496267890689/814ef099683f530070bbb551f226bce4.webp');
+    margin-top: -33px;
+}
+
+.userBoxName {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}

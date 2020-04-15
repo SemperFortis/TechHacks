@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<head>
+    <% let data = database.prepare("SELECT * FROM levelup ORDER BY xp DESC").all(); %>
+    <% console.log(JSON.stringify(data)) %>
+    <div id="db" data-db="<%= JSON.stringify(data) %>"></div>
+    <script>
+        let allUsers = JSON.parse(document.getElementById("db").dataset.db);
+    </script>
+
+    <link href="public/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="public/js/users.js"></script>
+    <title>Top Users</title>
+</head>
+
+<body style="background: #24252a;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <div class="disp">
+        <li><a class="active" id="profile" href="/">Users</a></li>
+        <li style="float: right; padding: 20px 33px;"><a id="show_discord" href="/api/discord/login"></a></li>
+    </div>
+    <div id="box" class="box">
+    </div>
+</body>
+
+</html>

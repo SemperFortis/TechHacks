@@ -22,11 +22,10 @@ client.on("ready", async () =>
 	if (database === null)
 	{
 		database = betterSqlite("./leveling.db", { verbose: console.log });
-		statements.selectXp = database.prepare("SELECT xp FROM levelup WHERE user_id = ?");
-		statements.insertUser = database.prepare("INSERT INTO levelup (user_id, xp) VALUES (?, ?)");
-		statements.updateXp = database.prepare("UPDATE levelup SET xp = ? WHERE user_id = ?");
-
 		createTableIfNotExists();
+		statements.selectXp = database.prepare("SELECT xp FROM levelup WHERE user_id = ?");
+		statements.insertUser = database.prepare("INSERT INTO levelup (user_id, username, xp, avatar) VALUES (?, ?, ?, ?)");
+		statements.updateXp = database.prepare("UPDATE levelup SET xp = ? WHERE user_id = ?");
 	}
 });
 
@@ -62,7 +61,7 @@ function addXp(message)
 
 	if (data == null)
 	{
-		statements.insertUser.run(message.author.id, 1);
+		statements.insertUser.run(message.author.id, message.author.tag, 1, message.author.avatarURL());
 	}
 	else
 	{
@@ -72,7 +71,7 @@ function addXp(message)
 
 function createTableIfNotExists()
 {
-	database.exec("CREATE TABLE IF NOT EXISTS levelup (user_id TEXT PRIMARY KEY UNIQUE, xp INTEGER)");
+	database.exec("CREATE TABLE IF NOT EXISTS levelup (user_id TEXT PRIMARY KEY UNIQUE, username TEXT, xp INTEGER, avatar TEXT)");
 }
 
 client.login(process.env.TOKEN);
