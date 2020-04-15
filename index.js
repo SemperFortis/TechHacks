@@ -63,7 +63,6 @@ function addXp(message)
 	if (data == null)
 	{
 		statements.insertUser.run(message.author.id, 1);
-		data = statements.selectXp.get(message.author.id);
 	}
 	else
 	{
