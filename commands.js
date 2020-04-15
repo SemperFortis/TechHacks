@@ -3,7 +3,7 @@ const { stripIndent } = require("common-tags");
 const config = require("./config.json");
 
 /**
- * @type {Collection.Collection<string, Command>}
+ * @type {Collection<string, Command>}
  */
 const commands = new Collection();
 
@@ -14,21 +14,19 @@ const commands = new Collection();
  */
 async function helpCommand(message, args, extra)
 {
-    await message.channel.send(new MessageEmbed({
-        title: "Kyle David Help Menu",
-        fields: {
-            name: "\u200b",
-            value: stripIndent`
-            ❓ **Help**: Displays this help command \n
-            🆙 **Level**: Check your XP and rank in the server \n 
-            🌠 **Top**: Lists the top 10 members in this server
-            `
-        },
-        thumbnail: { url: message.author.displayAvatarURL() },
-        color: "RANDOM",
-        timestamp: Date.now(),
-        footer: { text: `ID: ${message.author.id}`}
-    }));
+    await message.channel.send(
+        new MessageEmbed()
+            .setColor("RANDOM")
+            .setTitle("Kyle David Help Menu")
+            .setThumbnail(message.author.displayAvatarURL())
+            .addField("\u200b", stripIndent`
+                ❓ **Help**: Displays this help command \n
+                🆙 **Level**: Check your XP and rank in the server \n
+                🌠 **Top**: Lists the top 10 members in this server
+            `)
+            .setFooter(`ID: ${message.author.id}`)
+            .setTimestamp()
+    );
 }
 
 /**
@@ -38,11 +36,11 @@ async function helpCommand(message, args, extra)
  */
 function logoutCommand(message, args, extra)
 {
-	if (config.ownerIDs.includes(message.author.id))
-	{
-		message.client.destroy();
-		process.exit();
-	}
+    if (config.ownerIDs.includes(message.author.id))
+    {
+        message.client.destroy();
+        process.exit();
+    }
 }
 
 /**
@@ -52,14 +50,16 @@ function logoutCommand(message, args, extra)
  */
 async function levelCommand(message, args, extra)
 {
-	const data = extra.statements.selectXp.get(message.author.id);
-    await message.channel.send(new MessageEmbed({
-        author: { name: message.author.tag, iconURL: message.author.displayAvatarURL() },
-        description: `⭐ **${message.author.username}**, you have **${data.xp}** XP in this server!`,
-        color: "RANDOM",
-        timestamp: Date.now(),
-        footer: { text: `ID: ${message.author.id}` }
-    }));
+    const data = extra.statements.selectXp.get(message.author.id);
+
+    await message.channel.send(
+        new MessageEmbed()
+            .setColor("RANDOM")
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`⭐ **${message.author.username}**, you have **${data.xp}** XP in this server!`)
+            .setFooter(`ID: ${message.author.id}`)
+            .setTimestamp()
+    );
 }
 
 /**
@@ -67,12 +67,12 @@ async function levelCommand(message, args, extra)
  * @param {string[]} args
  * @param {CommandExtra} extra
  */
-async function topCommand(message, args, extra) {
-    new MessageEmbed()
+async function topCommand(message, args, extra)
+{
     const data = extra.database.prepare("SELECT * FROM levelup ORDER BY xp DESC").all();
     const entries = [];
 
-    for (let i = 0; i < data.slice(0, 10).length; i++) 
+    for (let i = 0; i < data.slice(0, 10).length; i++)
     {
         const member = await message.guild.members.fetch(data[i].user_id);
 
@@ -81,39 +81,35 @@ async function topCommand(message, args, extra) {
             i++;
             continue;
         }
-        else 
+        else
         {
             entries.push(stripIndent`
             ${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`} **${member.user.tag}**: ${data[i].xp} XP
-            `);  
-
+            `);
         }
     }
 
-    await message.channel.send(new MessageEmbed({
-        title: `${message.guild.name}'s Leaderboard`,
-        fields: {
-            name: "\u200b",
-            value: entries.join("\n\n")
-        },
-        thumbnail: { url: message.guild.iconURL() },
-        color: "RANDOM",
-        timestamp: Date.now(),
-        footer: { text: `ID: ${message.author.id}` }
-    }));
-
+    await message.channel.send(
+        new MessageEmbed()
+            .setColor("RANDOM")
+            .setTitle(`${message.guild.name}'s Leaderboard`)
+            .setThumbnail(message.guild.iconURL())
+            .addField("\u200b", entries.join("\n\n"))
+            .setFooter(`ID: ${message.author.id}`)
+            .setTimestamp()
+    );
 }
 
 commands.set("help", {
-	name: "help",
-	aliases: [],
-	run: helpCommand
+    name: "help",
+    aliases: [],
+    run: helpCommand
 });
 
 commands.set("level", {
-	name: "level",
-	aliases: ["rank"],
-	run: levelCommand
+    name: "level",
+    aliases: ["rank"],
+    run: levelCommand
 });
 
 commands.set("top", {
@@ -123,9 +119,9 @@ commands.set("top", {
 });
 
 commands.set("logout", {
-	name: "logout",
-	aliases: ["disconnect"],
-	run: logoutCommand
+    name: "logout",
+    aliases: ["disconnect"],
+    run: logoutCommand
 });
 
 module.exports = commands;

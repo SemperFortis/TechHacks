@@ -10,7 +10,11 @@
         "type": "git",
         "url": "git+https://github.com/SemperFortis/TechHacks.git"
     },
-    "author": "Far Aiir, Jason, Shane",
+    "author": "Jason",
+    "contributors": [
+        "Far Aiir",
+        "Shane"
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/SemperFortis/TechHacks/issues"
