@@ -2,7 +2,7 @@ window.onload = () => {
     let access_token = getCookie("access_token") || "None";
     let token_type = getCookie("token_type") || "None";
 
-    for (i in allUsers) {
+    for (const i in allUsers) {
 
         if (i >= 20) break; // Only display 20 users.
 

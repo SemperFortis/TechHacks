@@ -6,7 +6,6 @@ const btoa = require('btoa');
 const {
   catchAsync
 } = require('../utils/utils.js');
-let path = process.cwd();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const redirect = encodeURIComponent(process.env.redirect);
